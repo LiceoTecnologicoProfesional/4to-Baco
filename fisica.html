@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>Prueba de Física</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="quiz.css" />
+</head>
+<body>
+  <div id="app"></div>
+  <script src="config.js"></script>
+  <script src="notas-cloud.js"></script>
+  <script src="quiz-app.js"></script>
+  <script>
+    function P(tema, texto, pista, correcta, a, b, c, d) {
+      return {
+        tema: tema,
+        texto: texto,
+        pista: pista,
+        correcta: correcta,
+        opciones: [
+          { id: "a", texto: a },
+          { id: "b", texto: b },
+          { id: "c", texto: c },
+          { id: "d", texto: d }
+        ]
+      };
+    }
+
+    QuizApp.iniciar({
+      materia: "fisica",
+      titulo: "Trabajo, Energía y Potencia",
+      badge: "Física · 4to Bachillerato",
+      storageKey: "prueba-pao-fisica-v2",
+      alSalir: function () { location.href = "index.html"; },
+      excel: "Notas_Fisica.xls",
+      accent: "#0f766e",
+      accentSoft: "#d5f3ef",
+      fondo: "#e7f4f2",
+      preguntas: [
+        P("Concepto", "Según la física, ¿cuándo se realiza trabajo mecánico?", "Recuerda la analogía de empujar la pared.", "b",
+          "Cuando aplicas mucha fuerza, aunque el objeto no se mueva.",
+          "Cuando una fuerza logra desplazar un objeto.",
+          "Solo cuando te cansas físicamente al hacer un esfuerzo.",
+          "Siempre que sostienes un objeto en el aire sin moverlo."),
+        P("Fórmula", "La fórmula completa del trabajo mecánico es:", "Incluye el ángulo entre fuerza y desplazamiento.", "c",
+          "W = F / d",
+          "W = m · g · h",
+          "W = F · d · cos θ",
+          "W = ½ · m · v²"),
+        P("Concepto", "Cargas una mochila mientras caminas en línea recta. La fuerza hacia arriba sobre la mochila…", "Piensa en el ángulo θ = 90°.", "a",
+          "No realiza trabajo sobre la mochila en vertical, porque es perpendicular al desplazamiento.",
+          "Realiza el máximo trabajo posible (cos 90° = 1).",
+          "Realiza trabajo negativo porque vas caminando.",
+          "Solo realiza trabajo si te cansas."),
+        P("Cálculo", "Un estudiante empuja un escritorio con 30 N a lo largo de 5 m (θ = 0°). ¿Cuánto trabajo realiza?", "W = F · d · cos θ", "b",
+          "35 J", "150 J", "6 J", "150 N"),
+        P("Concepto", "¿Qué mide la potencia?", "Compara subir escaleras caminando vs. corriendo.", "d",
+          "Cuánta fuerza se aplicó en total.",
+          "La altura a la que se elevó un objeto.",
+          "Solo la masa del objeto movido.",
+          "Qué tan rápido se realiza un trabajo (trabajo por unidad de tiempo)."),
+        P("Cálculo", "Un obrero empuja una caja con 50 N a lo largo de 8 m (θ = 0°) en 4 s. ¿Cuál es la potencia?", "Primero calcula W, luego P = W / t.", "c",
+          "400 W", "50 W", "100 W", "200 W"),
+        P("Energía", "La energía cinética (Ec) es la energía del…", "Un carro en movimiento, una pelota en el aire.", "a",
+          "Movimiento: Ec = ½ m v²",
+          "Almacenamiento por altura: Ec = m g h",
+          "Tiempo: Ec = W / t",
+          "Ángulo: Ec = F · d · cos θ"),
+        P("Cálculo", "Una pelota de 0.5 kg queda atrapada a 6 m de altura. ¿Cuánta energía potencial tiene? (g = 9.8 m/s²)", "Ep = m · g · h", "b",
+          "14.7 J", "29.4 J", "58.8 J", "3 J"),
+        P("Unidades", "En el Sistema Internacional, el trabajo se mide en _____ y la potencia en _____.", "Cantidad de energía frente a rapidez con la que se usa.", "c",
+          "Newtons y metros",
+          "Watts y Joules",
+          "Joules y Watts",
+          "Kilogramos y segundos"),
+        P("Comparación", "Dos personas suben la misma caja. Una tarda 10 s y la otra 20 s. ¿Quién desarrolla más potencia?", "El trabajo W = F · d es el mismo.", "d",
+          "La que tarda 20 s, porque hace más esfuerzo.",
+          "Ambas desarrollan la misma potencia.",
+          "Ninguna, porque no hay trabajo.",
+          "La que tarda 10 s: el doble de potencia, porque el tiempo es la mitad.")
+      ]
+    });
+  </script>
+</body>
+</html>

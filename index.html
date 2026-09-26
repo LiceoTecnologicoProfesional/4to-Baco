@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>Pruebas · 4to Bachillerato</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="quiz.css" />
+  <style>
+    :root {
+      --ink: #14202b;
+      --muted: #5c6b78;
+      --line: #d9e0e6;
+      --card: #fff;
+      --bg: #e7f4f2;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 90% 45% at 0% -10%, #d5f3ef, transparent 55%),
+        var(--bg);
+    }
+    main {
+      flex: 1;
+      width: min(34rem, 100%);
+      margin: 0 auto;
+      padding: max(1.25rem, env(safe-area-inset-top)) 1rem 1rem;
+    }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0f766e;
+      margin: 0 0 0.4rem;
+    }
+    h1 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 2rem;
+      line-height: 1.15;
+      margin: 0 0 1.1rem;
+    }
+    .pruebas { display: flex; flex-direction: column; gap: 0.8rem; }
+    a.prueba, button.prueba {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 1.1rem 1rem;
+      box-shadow: 0 10px 30px rgba(20, 32, 43, 0.08);
+      min-height: 88px;
+    }
+    a.prueba strong {
+      display: block;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.35rem;
+      margin-bottom: 0.2rem;
+    }
+    a.prueba span { color: var(--muted); font-size: 0.95rem; }
+    a.fisica strong { color: #0f766e; }
+    a.mate strong { color: #1e4d8c; }
+    .litpa {
+      margin-top: auto;
+      padding: 1.4rem 1rem calc(1.2rem + env(safe-area-inset-bottom));
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #8aa09a;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      touch-action: none;
+    }
+    .panel { display: none; }
+    body.abierto .inicio { display: none; }
+    body.abierto .panel { display: block; }
+    body.abierto .litpa { display: none; }
+    .barra-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .barra-panel h1 { margin: 0; font-size: 1.7rem; }
+    button {
+      font-family: inherit;
+      font-weight: 700;
+      border: 0;
+      border-radius: 12px;
+      min-height: 44px;
+      padding: 0.55rem 0.9rem;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .volver { background: #e7eeec; color: var(--ink); }
+    .alumno {
+      background: #fff;
+      border-radius: 16px;
+      padding: 0.95rem 0.9rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 8px 24px rgba(20, 32, 43, 0.06);
+    }
+    .alumno h2 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.2rem;
+      margin: 0 0 0.55rem;
+    }
+    .fila {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      padding: 0.25rem 0;
+    }
+    .fila b { color: #0f766e; }
+    .pdf {
+      width: 100%;
+      margin-top: 0.7rem;
+      background: #0f766e;
+      color: #fff;
+    }
+    .pdf:disabled { opacity: 0.55; }
+    .vacio, .error { color: var(--muted); }
+    .error { color: #991b1b; }
+    .reiniciar {
+      width: 100%;
+      margin-top: 0.4rem;
+      background: #991b1b;
+      color: #fff;
+    }
+    button.prueba {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      cursor: pointer;
+    }
+    #portada {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    #app { display: none; }
+    body.en-quiz #portada { display: none; }
+    body.en-quiz #app { display: block; }
+    body.en-quiz {
+      background:
+        radial-gradient(ellipse 90% 40% at 0% -10%, var(--accent-soft), transparent 55%),
+        var(--bg);
+    }
+  </style>
+</head>
+<body>
+  <div id="portada">
+  <main>
+    <section class="inicio" id="inicio">
+      <p class="badge">4to Bachillerato</p>
+      <h1>Pruebas</h1>
+      <div class="pruebas">
+        <a class="prueba fisica" href="fisica.html">
+          <strong>Física</strong>
+          <span>Trabajo, energía y potencia</span>
+        </a>
+        <a class="prueba mate" href="matematicas.html">
+          <strong>Matemáticas</strong>
+          <span>Geometría plana y medidas</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel" id="panel">
+      <div class="barra-panel">
+        <h1>Notas</h1>
+        <button type="button" class="volver" id="cerrar">Volver</button>
+      </div>
+      <div id="lista"></div>
+      <button type="button" class="reiniciar" id="reiniciar">Reiniciar</button>
+    </section>
+  </main>
+  <div class="litpa" id="litpa">LITPA</div>
+  </div>
+  <div id="app"></div>
+
+  <script src="config.js"></script>
+  <script src="notas-cloud.js"></script>
+  <script>
+    var litpa = document.getElementById("litpa");
+    var lista = document.getElementById("lista");
+    var pulso = null;
+    var alumnosCache = [];
+
+    function abrirPanel() {
+      pulso = null;
+      document.body.classList.add("abierto");
+      cargarNotas();
+    }
+
+    litpa.addEventListener("pointerdown", function (e) {
+      if (e.button && e.button !== 0) return;
+      try { litpa.setPointerCapture(e.pointerId); } catch (err) {}
+      clearTimeout(pulso);
+      pulso = setTimeout(abrirPanel, 5000);
+    });
+    function soltar() {
+      clearTimeout(pulso);
+      pulso = null;
+    }
+    litpa.addEventListener("pointerup", soltar);
+    litpa.addEventListener("pointercancel", soltar);
+    litpa.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
+    document.getElementById("cerrar").addEventListener("click", function () {
+      document.body.classList.remove("abierto");
+    });
+
+    function materiaTexto(prueba) {
+      if (!prueba) return "—";
+      return prueba.puntos + " · Nota " + prueba.nota;
+    }
+
+    function buscar(alumno, clave) {
+      var pruebas = alumno.pruebas || [];
+      for (var i = 0; i < pruebas.length; i++) {
+        if (pruebas[i].clave === clave) return pruebas[i];
+      }
+      return null;
+    }
+
+    function pintarLista(alumnos) {
+      lista.textContent = "";
+      if (!alumnos.length) {
+        lista.appendChild(texto("p", "vacio", "Todavía no hay notas."));
+        return;
+      }
+      alumnos.forEach(function (alumno) {
+        var card = document.createElement("article");
+        card.className = "alumno";
+        var titulo = document.createElement("h2");
+        titulo.textContent = alumno.nombre;
+        card.appendChild(titulo);
+        card.appendChild(fila("Física", materiaTexto(buscar(alumno, "fisica"))));
+        card.appendChild(fila("Matemáticas", materiaTexto(buscar(alumno, "mate"))));
+        var pdf = document.createElement("button");
+        pdf.type = "button";
+        pdf.className = "pdf";
+        pdf.textContent = "Descargar PDF";
+        pdf.addEventListener("click", function () { descargarPdf(alumno, pdf); });
+        card.appendChild(pdf);
+        lista.appendChild(card);
+      });
+    }
+
+    function fila(nombre, valor) {
+      var p = document.createElement("div");
+      p.className = "fila";
+      var s = document.createElement("span");
+      s.textContent = nombre;
+      var b = document.createElement("b");
+      b.textContent = valor;
+      p.appendChild(s);
+      p.appendChild(b);
+      return p;
+    }
+
+    function texto(tag, cls, value) {
+      var n = document.createElement(tag);
+      n.className = cls;
+      n.textContent = value;
+      return n;
+    }
+
+    function cargarNotas() {
+      lista.textContent = "";
+      lista.appendChild(texto("p", "vacio", "Cargando notas…"));
+      if (!window.NotasCloud || !NotasCloud.estaConfigurado()) {
+        lista.textContent = "";
+        lista.appendChild(texto("p", "error", "Falta conectar Google Sheets."));
+        return;
+      }
+      NotasCloud.detalle().then(function (alumnos) {
+        alumnosCache = alumnos;
+        pintarLista(alumnos);
+      }).catch(function (err) {
+        lista.textContent = "";
+        lista.appendChild(texto("p", "error", err.message || "No se pudieron leer las notas."));
+      });
+    }
+
+    function bloquePregunta(prueba) {
+      var html = "";
+      (prueba.respuestas || []).forEach(function (r) {
+        html += "<div style=\"margin:0 0 12px;page-break-inside:avoid\">" +
+          "<p style=\"margin:0 0 4px\"><strong>" + r.n + ". " + escapar(r.pregunta) + "</strong></p>" +
+          "<p style=\"margin:0\">Respuesta: " + escapar(r.alumno) + "</p>" +
+          "<p style=\"margin:0\">Correcta: " + escapar(r.correcta) + " · " + escapar(r.resultado) + "</p>" +
+          "</div>";
+      });
+      return html;
+    }
+
+    function escapar(valor) {
+      return String(valor == null ? "" : valor)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function armarHtml(alumno) {
+      var cuerpo = "<h1 style=\"font-family:Georgia,serif;margin:0 0 8px\">" + escapar(alumno.nombre) + "</h1>";
+      (alumno.pruebas || []).forEach(function (prueba) {
+        cuerpo += "<h2 style=\"margin:18px 0 6px;page-break-after:avoid\">" + escapar(prueba.materia) + "</h2>" +
+          "<p style=\"margin:0 0 12px\"><strong>Punteo: " + escapar(prueba.puntos) +
+          " · Nota: " + escapar(prueba.nota) + "</strong>" +
+          (prueba.fecha ? " · " + escapar(prueba.fecha) : "") + "</p>" +
+          bloquePregunta(prueba);
+      });
+      var nodo = document.createElement("div");
+      nodo.style.width = "190mm";
+      nodo.style.padding = "12px";
+      nodo.style.background = "#fff";
+      nodo.style.color = "#14202b";
+      nodo.style.fontFamily = "Arial, sans-serif";
+      nodo.style.fontSize = "12px";
+      nodo.style.lineHeight = "1.4";
+      nodo.innerHTML = cuerpo;
+      return nodo;
+    }
+
+    function cargarLibro() {
+      if (window.html2pdf) return Promise.resolve();
+      return new Promise(function (resolve, reject) {
+        var s = document.createElement("script");
+        s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+        s.onload = function () { resolve(); };
+        s.onerror = function () { reject(new Error("No se pudo preparar el PDF.")); };
+        document.head.appendChild(s);
+      });
+    }
+
+    function descargarPdf(alumno, boton) {
+      boton.disabled = true;
+      boton.textContent = "Creando PDF…";
+      var nodo = armarHtml(alumno);
+      document.body.appendChild(nodo);
+      cargarLibro().then(function () {
+        var nombre = "Prueba - " + String(alumno.nombre).replace(/[\\\/:*?"<>|]/g, "") + ".pdf";
+        return window.html2pdf().set({
+          margin: [10, 10, 10, 10],
+          filename: nombre,
+          image: { type: "jpeg", quality: 0.95 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          pagebreak: { mode: ["css", "legacy"] }
+        }).from(nodo).save();
+      }).catch(function (err) {
+        alert(err.message || "No se pudo descargar el PDF.");
+      }).then(function () {
+        if (nodo.parentNode) nodo.parentNode.removeChild(nodo);
+        boton.disabled = false;
+        boton.textContent = "Descargar PDF";
+      });
+    }
+
+    document.getElementById("reiniciar").addEventListener("click", function () {
+      if (!window.NotasCloud || !NotasCloud.estaConfigurado()) return;
+      if (!confirm("¿Borrar todas las notas y dejar las pruebas listas para empezar de nuevo?")) return;
+      var btn = document.getElementById("reiniciar");
+      btn.disabled = true;
+      NotasCloud.borrarTodo("BORRAR").then(function () {
+        alumnosCache = [];
+        pintarLista([]);
+        btn.disabled = false;
+      }).catch(function (err) {
+        btn.disabled = false;
+        alert(err.message || "No se pudo reiniciar.");
+      });
+    });
+  </script>
+</body>
+</html>

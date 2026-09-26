@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e4d8c" />
+  <title>Prueba de Matemáticas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="quiz.css" />
+</head>
+<body>
+  <div id="app"></div>
+  <script src="config.js"></script>
+  <script src="notas-cloud.js"></script>
+  <script src="quiz-app.js"></script>
+  <script>
+    function P(tema, texto, pista, correcta, a, b, c, d) {
+      return {
+        tema: tema,
+        texto: texto,
+        pista: pista,
+        correcta: correcta,
+        opciones: [
+          { id: "a", texto: a },
+          { id: "b", texto: b },
+          { id: "c", texto: c },
+          { id: "d", texto: d }
+        ]
+      };
+    }
+
+    QuizApp.iniciar({
+      materia: "mate",
+      titulo: "Geometría plana y medidas",
+      badge: "Matemáticas · 4to Bachillerato",
+      storageKey: "prueba-pao-mate-v2",
+      alSalir: function () { location.href = "index.html"; },
+      excel: "Notas_Matematicas.xls",
+      accent: "#1e4d8c",
+      accentSoft: "#d9e6f7",
+      fondo: "#e8eef6",
+      preguntas: [
+        P("Concepto", "¿Cuál es la diferencia entre figuras semejantes y congruentes?", "Misma forma… ¿y el tamaño?", "b",
+          "Semejantes: misma forma y tamaño. Congruentes: misma forma, distinto tamaño.",
+          "Semejantes: misma forma, distinto tamaño. Congruentes: misma forma y mismo tamaño.",
+          "Ambas significan exactamente lo mismo.",
+          "Congruentes solo se aplica a círculos."),
+        P("Simetría", "Una figura tiene simetría cuando…", "Piensa en un espejo.", "c",
+          "Todos sus lados miden lo mismo, sin excepción.",
+          "Tiene exactamente tres ángulos agudos.",
+          "Un eje la divide en dos partes iguales, una reflejo de la otra.",
+          "Solo se puede dibujar en 3 dimensiones."),
+        P("Ángulos", "Clasifica correctamente: 35°, 90°, 150° y 180°.", "Agudo, recto, obtuso, llano.", "a",
+          "Agudo, recto, obtuso, llano",
+          "Recto, agudo, llano, obtuso",
+          "Obtuso, llano, agudo, recto",
+          "Llano, obtuso, recto, agudo"),
+        P("Bisectriz", "Trazas la bisectriz de un ángulo de 80°. ¿Cuánto mide cada ángulo resultante?", "La bisectriz divide el ángulo en dos partes iguales.", "d",
+          "80° y 0°",
+          "20° y 60°",
+          "90° cada uno",
+          "40° cada uno"),
+        P("Polígonos", "Un hexágono es un polígono con…", "Clasificación según el número de lados.", "b",
+          "4 lados", "6 lados", "5 lados", "8 lados"),
+        P("Concepto", "El perímetro mide… y el área mide…", "Lazo alrededor vs. pintar por dentro.", "c",
+          "El espacio interior · la distancia alrededor",
+          "El volumen · la masa",
+          "La distancia alrededor · el espacio que cubre la figura por dentro",
+          "Solo el radio · solo la altura"),
+        P("Cálculo", "Rectángulo de base 8 cm y altura 5 cm. ¿Perímetro y área?", "P = 2(b + h) · A = b × h", "a",
+          "P = 26 cm · A = 40 cm²",
+          "P = 40 cm · A = 26 cm²",
+          "P = 13 cm · A = 40 cm²",
+          "P = 26 cm · A = 13 cm²"),
+        P("Cálculo", "Área de un círculo con radio 3 cm (π ≈ 3.1416):", "A = π · r²", "b",
+          "18.85 cm²", "28.27 cm²", "9.42 cm²", "6 cm²"),
+        P("Volumen", "Volumen de un cubo cuyo lado mide 6 cm:", "V = lado³", "d",
+          "36 cm³", "18 cm³", "216 cm²", "216 cm³"),
+        P("Volumen", "Cilindro con radio 2 cm y altura 10 cm. ¿Volumen? (π ≈ 3.1416)", "V = π · r² · h", "c",
+          "62.83 cm³", "31.42 cm³", "125.66 cm³", "40 cm³")
+      ]
+    });
+  </script>
+</body>
+</html>
